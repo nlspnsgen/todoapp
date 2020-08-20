@@ -1,48 +1,55 @@
-import React, { Component} from 'react';
+import React, { useState } from 'react';
+import "./InputTodo.scss"
 
-class Form extends Component {
-    state={
-        title: "",
-        correctLength: true
-    };
-    onChangeHandler = (e) => {
-        this.setState({title:e.target.value})
-    }
-    onUpdateHandler = (e) => {
-        e.preventDefault();
-        // correct length
-        if(this.state.title.length >3 && this.state.title.length < 25 ) {
-            this.props.addTodo(this.state);
-            // clear title and therefore text input
-            this.setState({
-                title: "",
-                correctLength: true
-            });
-        } else { // incorrect length
-            this.setState({
-                correctLength: false
-            });
+
+const Form = (props) => {
+    const [title, setTitle] = useState("");
+    const [correctLength, setCorrectLength] = useState(true);
+    const [at, setAt] = useState(false)
+
+    const onChangeHandler = (e) => {
+        setTitle(e.target.value)
+        if(title.includes("@")){
+            setAt(true)
+        }else {
+            setAt(false)
         }
     }
-    render() {
-        return (
-            <form className = "form-container" onSubmit = {this.onUpdateHandler}>
-                <input 
-                className= "input-text"
-                type="text" 
-                placeholder="ToDo" 
-                value={this.state.title} 
-                onChange={ this.onChangeHandler} />
-                <input 
-                type="submit" 
-                value="Submit"
-                className= "input-submit"
-                />
-                {this.state.correctLength ? null : <p>"Text muss zwischen 3-25 zeichen haben"</p>}
-            </form>
-            
-        );
-    }
-}
 
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
+
+        if (title.length > 3 && title.length < 25) {
+
+            props.addTodo(title);
+
+            setCorrectLength(true);
+            setTitle("");
+
+        } else { // incorrect length
+            setCorrectLength(false);
+        }
+    }
+
+    return (
+        <>
+            <form action="" onSubmit={onSubmitHandler} className="form-container">
+                <input
+                    className="input-text"
+                    type="text"
+                    placeholder="ToDo..."
+                    value={title}
+                    onChange={onChangeHandler}
+                />
+                <input type="submit" value="Send" className="input-submit" /> 
+            </form>
+            {correctLength ?
+                null : 
+                <p>Dein ToDo muss zwischen 3 und 25 Zeichen lang sein!</p>
+            }
+            {at ? <p>Please don't use @ in your Todos!</p> : null}
+            
+        </>
+    );
+}
 export default Form;

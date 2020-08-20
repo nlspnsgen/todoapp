@@ -1,0 +1,33 @@
+.wrapper {
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+    .total {
+
+        background: rgba($color: #800080, $alpha: 0.4);
+        color: #800080;
+    }
+    .success {
+        background: rgba($color: #038203, $alpha: 0.4);
+        color: #038203;
+    }
+    .pending {
+        background: rgba($color: #ff6933, $alpha: 0.4);
+        color: #ff6933;
+    }
+}
+p {
+    font-size: 0.8em;
+}
+.total, .success, .pending, .wrapper {
+    display:flex;
+}
+.total, .success, .pending  {
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 30px;
+    border-radius: 15px 0 15px 0
+}
